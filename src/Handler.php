@@ -80,10 +80,20 @@ class Handler
         $fileDestiny = $this->getFileDestiny();
 
         $fileType = $this->getFileType();
+
+        $userDirectory = $this->getUserDirectory();
    
         $uploadDir = Helpers::getUploadDir();
 
-        return $uploadDir . $fileType . '/' . $fileDestiny;
+        $defaultUploadDir = $uploadDir . $fileType . '/' . $fileDestiny . '/' . $userDirectory;
+
+        if (!file_exists($defaultUploadDir)) {
+            if (!mkdir($defaultUploadDir)) {
+                throw new \Exception('Unable to upload file!');
+            }
+        }
+
+        return $defaultUploadDir;
     }
 
     /**
@@ -111,6 +121,30 @@ class Handler
     }
 
     /**
+     * Get user directory
+     * 
+     * @return string
+     */
+    public function getUserDirectory(): string
+    {
+        return $this->userDirectory;
+    }
+
+    /**
+     * Get user directory
+     * 
+     * @param string $directory
+     * 
+     * @return Handler
+     */
+    public function setUserDirectory($directory): Handler
+    {
+        $this->userDirectory = $directory;
+        
+        return $this;
+    }
+
+    /**
      * Get default upload name
      * 
      * @return string
@@ -119,7 +153,7 @@ class Handler
     {
         $user = User::getUser();
         
-        $fileName = $user->user_hash . $this->file->getName();
+        $fileName = $user->userHash . $this->file->getName();
 
         return base64_encode(Di::getDefault()->getShared('security')->getUserToken($fileName));
     }
