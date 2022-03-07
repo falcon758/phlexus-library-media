@@ -131,7 +131,7 @@ class Handler extends Injectable
      * 
      * @return Handler
      */
-    public function setUploadName($name): Handler
+    public function setUploadName(string $name): Handler
     {
         $this->uploadName = $name;
         
