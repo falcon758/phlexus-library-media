@@ -21,7 +21,7 @@ class MediaDestiny extends Model
     /**
      * @var int
      */
-    public int $id;
+    public $id;
 
     /**
      * @var string
@@ -29,9 +29,9 @@ class MediaDestiny extends Model
     public string $mediaDestiny;
 
     /**
-     * @var int
+     * @var int|null
      */
-    public int $active;
+    public $active;
 
     /**
      * Initialize

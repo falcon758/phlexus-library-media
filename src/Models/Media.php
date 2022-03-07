@@ -19,7 +19,7 @@ class Media extends Model
     /**
      * @var int
      */
-    public int $id;
+    public $id;
 
     /**
      * @var string
@@ -37,19 +37,19 @@ class Media extends Model
     public int $mediaDestinyID;
 
     /**
-     * @var int
+     * @var int|null
      */
-    public int $active;
+    public $active;
 
     /**
-     * @var string
+     * @var string|null
      */
-    public string $createdAt;
+    public $createdAt;
 
     /**
-     * @var string
+     * @var string|null
      */
-    public string $modifiedAt;
+    public $modifiedAt;
 
     /**
      * Initialize

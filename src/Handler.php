@@ -250,8 +250,6 @@ class Handler extends Injectable
 
         $status = $this->file->moveTo($uploadDir . '/' . $this->getUploadName());
 
-        $this->reset();
-
         return $status;
     }
 
