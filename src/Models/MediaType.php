@@ -21,17 +21,17 @@ class MediaType extends Model
     /**
      * @var int
      */
-    public $id;
+    public int $id;
 
     /**
      * @var string
      */
-    public $mediaType;
+    public string $mediaType;
 
     /**
      * @var int
      */
-    public $active;
+    public int $active;
 
     /**
      * Initialize

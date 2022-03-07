@@ -20,8 +20,9 @@ use Phlexus\Libraries\Helpers;
 use Phlexus\Modules\BaseUser\Models\User;
 use Phalcon\Http\Request\File;
 use Phalcon\DI;
+use Phalcon\Di\Injectable;
 
-class Handler
+class Handler extends Injectable
 {
     private File $file;
 
@@ -36,10 +37,27 @@ class Handler
     private string $uploadName;
 
     /**
-     * Construct
+     * Get file
+     * 
+     * @return string
      */
-    public function __construct(File $file) {
+    public function getFile(): File
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set file
+     * 
+     * @param File $file
+     * 
+     * @return Handler
+     */
+    public function setFile($file): Handler
+    {
         $this->file = $file;
+
+        return $this;
     }
 
     /**
@@ -230,7 +248,11 @@ class Handler
             return false;
         }
 
-        return $this->file->moveTo($uploadDir . '/' . $this->getUploadName());
+        $status = $this->file->moveTo($uploadDir . '/' . $this->getUploadName());
+
+        $this->reset();
+
+        return $status;
     }
 
     /**
@@ -244,5 +266,18 @@ class Handler
         $this->setUploadName($this->getDefaultUploadName());
 
         return $this->moveFile();
+    }
+
+    /**
+     * Reset Handler
+     * 
+     * @return void
+     */
+    public function reset(): void
+    {
+        unset($this->file);
+        unset($this->fileDestiny);
+        unset($this->fileType);
+        unset($this->uploadName);
     }
 }
