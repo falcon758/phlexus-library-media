@@ -16,7 +16,9 @@ class MediaDestiny extends Model
 
     public const ENABLED = 1;
 
-    public const DESTINY_USER = 1;
+    public const DESTINY_INTERNAL = 1;
+
+    public const DESTINY_USER = 2;
 
     /**
      * @var int

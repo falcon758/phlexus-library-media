@@ -198,6 +198,7 @@ class Handler extends Injectable
     public function setFileDestiny($fileDestiny): Handler
     {
         switch ($fileDestiny) {
+            case MediaDestiny::DESTINY_INTERNAL:
             case MediaDestiny::DESTINY_USER:
                 $this->fileDestiny = $fileDestiny;
                 break;
