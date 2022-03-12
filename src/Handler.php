@@ -15,9 +15,7 @@ namespace Phlexus\Libraries\Media;
 
 use Phlexus\Libraries\Media\Models\MediaType;
 use Phlexus\Libraries\Media\Models\MediaDestiny;
-use Phlexus\Security;
 use Phlexus\Libraries\Helpers;
-use Phlexus\Modules\BaseUser\Models\User;
 use Phalcon\Http\Request\File;
 use Phalcon\DI;
 use Phalcon\Di\Injectable;
@@ -168,10 +166,8 @@ class Handler extends Injectable
      * @return string
      */
     public function getDefaultUploadName(): string
-    {
-        $user = User::getUser();
-        
-        $fileName = $user->userHash . $this->file->getName();
+    {        
+        $fileName = $this->file->getName();
 
         return base64_encode(Di::getDefault()->getShared('security')->getUserToken($fileName));
     }
