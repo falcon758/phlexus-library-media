@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Phlexus\Libraries\Media\Models;
 
-use Phalcon\Mvc\Model;
+use Phlexus\Models\Model;
 
 /**
  * Class Media
