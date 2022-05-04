@@ -113,8 +113,8 @@ class Media extends Model
             return null;
         }
 
-        $media               = new self;
-        $media->mediaName    = $mediaName;
+        $media                 = new self;
+        $media->mediaName      = $mediaName;
         $media->mediaTypeID    = $mediaTypeModel->id;
         $media->mediaDestinyID = $mediaDestinyModel->id;
 
