@@ -17,7 +17,7 @@ use Phlexus\Libraries\Media\Models\MediaType;
 use Phlexus\Libraries\Media\Models\MediaDestiny;
 use Phlexus\Libraries\Helpers;
 use Phalcon\Http\Request\File;
-use Phalcon\DI;
+use Phalcon\Di;
 use Phalcon\Di\Injectable;
 
 class Handler extends Injectable
