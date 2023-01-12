@@ -37,6 +37,8 @@ class Upload implements UploadInterface
 
     /**
      * Constructor
+     * 
+     * @throws Exception
      */
     public function _construct()
     {
