@@ -40,12 +40,12 @@ class Upload implements UploadInterface
      */
     public function _construct()
     {
-        $uploadDir     = Helpers::getUploadDir();
         $dirTypeID     = MediaDestiny::DESTINY_USER;
+        $uploadDir     = Helpers::getUploadDir();
         $userDirectory = Di::getDefault()->getShared('security')->getStaticUserToken();
         
-        $this->setBaseDir($uploadDir . '/' . $userDirectory);
         $this->setDirTypeID($dirTypeID);
+        $this->setBaseDir($uploadDir . '/' . $userDirectory);
     }
 
     /**
