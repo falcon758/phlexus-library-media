@@ -10,10 +10,10 @@ use Exception;
 
 $files = $this->request->getUploadedFiles(true, true);
 
-$uploader = new Upload($files['image']);
-
 try {
-    $status = $uploader->upload();
+    $uploader = new Upload();
+    $status = $uploader->setFile($files['image'])
+                        ->upload();
 } catch (Exception $e) {
     exit($e->getMessage());
 }
