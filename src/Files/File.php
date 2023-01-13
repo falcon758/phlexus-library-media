@@ -28,7 +28,7 @@ class File implements FileInterface
      */
     public function _construct(string $file)
     {
-        $this->setFile();
+        $this->setFile($file);
     }
 
     /**
@@ -66,11 +66,11 @@ class File implements FileInterface
      * 
      * @param string $file
      * 
-     * @return File
+     * @return FileInterface
      * 
      * @throws InvalidArgumentException
      */
-    public function setFile($file): File
+    public function setFile(string $file): FileInterface
     {
         if (!file_exists($file)) {
             throw new \InvalidArgumentException('File doesn\'t exists!');

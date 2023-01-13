@@ -36,11 +36,11 @@ interface FileInterface
      * 
      * @param string $file
      * 
-     * @return File
+     * @return FileInterface
      * 
      * @throws InvalidArgumentException
      */
-    public function setFile($file): File;
+    public function setFile($file): FileInterface;
 
     /**
      * Get filename
