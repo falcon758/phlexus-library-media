@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phlexus\Libraries\Media\Files;
 
+use Phlexus\Libraries\Media\Files\Formatter\FormatterInterface;
 use Phalcon\Http\Request\File;
 
 interface UploadInterface

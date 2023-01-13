@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phlexus\Libraries\Media\Files;
 
 use Phlexus\Libraries\Media\Files\Formatter\FormatterInterface;
+use Phlexus\Libraries\Media\Files\Formatter\UserFormatter;
 use Phlexus\Libraries\Media\Models\MediaDestiny;
 use Phlexus\Libraries\Media\Models\MediaType;
 use Phlexus\Libraries\Helpers;
@@ -33,6 +34,8 @@ class Upload implements UploadInterface
 
     private string $baseDir;
 
+    private string $userDir;
+
     private string $uploadName;
 
     /**
@@ -40,14 +43,16 @@ class Upload implements UploadInterface
      * 
      * @throws Exception
      */
-    public function _construct()
+    public function __construct()
     {
         $dirTypeID     = MediaDestiny::DESTINY_USER;
         $uploadDir     = Helpers::getUploadDir();
         $userDirectory = Di::getDefault()->getShared('security')->getStaticUserToken();
-        
-        $this->setDirTypeID($dirTypeID);
-        $this->setBaseDir($uploadDir . '/' . $userDirectory);
+
+        $this->setDirTypeID($dirTypeID)
+             ->setBaseDir($uploadDir)
+             ->setUserDir($userDirectory)
+             ->setFormatter(new UserFormatter);
     }
 
     /**
@@ -78,6 +83,7 @@ class Upload implements UploadInterface
         $this->file = $file;
 
         $this->setFileTypeID();
+        $this->setUploadName($file->getName());
 
         return $this;
     }
@@ -133,10 +139,10 @@ class Upload implements UploadInterface
      */
     public function setDirTypeID(int $dirTypeID): UploadInterface
     {
-        switch ($fileDestiny) {
+        switch ($dirTypeID) {
             case MediaDestiny::DESTINY_INTERNAL:
             case MediaDestiny::DESTINY_USER:
-                $this->fileDestiny = $fileDestiny;
+                $this->dirTypeID = $dirTypeID;
                 break;
             default:
                 throw new \Exception('Destiny not supported');
@@ -178,6 +184,30 @@ class Upload implements UploadInterface
 
         return $this;
     }
+    
+    /**
+     * Get user directory
+     * 
+     * @return string
+     */
+    public function getUserDir(): string
+    {
+        return $this->userDir;
+    }
+
+    /**
+     * Set user directory
+     * 
+     * @param string $userDir
+     * 
+     * @return UploadInterface
+     */
+    public function setUserDir(string $userDir): UploadInterface
+    {
+        $this->userDir = $userDir;
+
+        return $this;
+    }
 
     /**
      * Get upload name
@@ -200,7 +230,7 @@ class Upload implements UploadInterface
     {
         $formatter = $this->formatter;
 
-        $this->uploadName = $this->formatter->format($this->uploadName);
+        $this->uploadName = $this->formatter->format($name);
 
         return $this;
     }
@@ -212,13 +242,12 @@ class Upload implements UploadInterface
      */
     public function getUploadDir(): string
     {
-        $baseDir = $this->getBaseDir();
-
-        $dirTypeID = $this->getDirTypeID();
-
+        $baseDir    = $this->getBaseDir();
         $fileTypeID = $this->getFileTypeID();
+        $dirTypeID  = $this->getDirTypeID();
+        $userDir    = $this->getUserDir();
 
-        return $baseDir . '/' . $dirTypeID . '/' . $fileTypeID;
+        return $baseDir . implode('/', [ $fileTypeID, $dirTypeID, $userDir]);
     }
 
     /**
@@ -252,7 +281,9 @@ class Upload implements UploadInterface
             throw new Exception('Unable to upload file!');
         }
 
-        return $this->getFile()->moveTo($this->getUploadDir());
+        $uploadName = $this->getUploadName();
+
+        return $this->getFile()->moveTo($this->getUploadDir() . $uploadName);
     }
 
     /**
@@ -284,6 +315,7 @@ class Upload implements UploadInterface
         switch ($mimeType) {
             case 'image/png':
             case 'image/jpg':
+            case 'image/jpeg':
                 $this->fileTypeID = MediaType::TYPE_IMAGE;
                 break;
             default:

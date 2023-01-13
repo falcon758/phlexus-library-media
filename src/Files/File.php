@@ -26,7 +26,7 @@ class File implements FileInterface
      * 
      * @param string $file File to set
      */
-    public function _construct(string $file)
+    public function __construct(string $file)
     {
         $this->setFile($file);
     }
