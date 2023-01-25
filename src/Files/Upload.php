@@ -283,7 +283,7 @@ class Upload implements UploadInterface
 
         $uploadName = $this->getUploadName();
 
-        return $this->getFile()->moveTo($this->getUploadDir() . $uploadName);
+        return $this->getFile()->moveTo($this->getUploadDir() . '/' . $uploadName);
     }
 
     /**
