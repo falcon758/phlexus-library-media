@@ -40,7 +40,7 @@ interface FileInterface
      * 
      * @throws InvalidArgumentException
      */
-    public function setFile($file): FileInterface;
+    public function setFile(string $file): FileInterface;
 
     /**
      * Get filename
@@ -76,4 +76,13 @@ interface FileInterface
      * @return int
      */
     public function getSize(): int;
+
+    /**
+     * Get file content
+     * 
+     * @return string
+     * 
+     * @throws BadMethodCallException
+     */
+    public function getContent(): string;
 }

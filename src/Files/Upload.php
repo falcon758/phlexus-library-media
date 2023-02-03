@@ -318,6 +318,9 @@ class Upload implements UploadInterface
             case 'image/jpeg':
                 $this->fileTypeID = MediaType::TYPE_IMAGE;
                 break;
+            case 'audio/wav':
+                $this->fileTypeID = MediaType::TYPE_AUDIO;
+                break;
             default:
                 throw new Exception('Mime-Type not supported');
         }

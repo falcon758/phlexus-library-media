@@ -76,8 +76,7 @@ class File implements FileInterface
             throw new \InvalidArgumentException('File doesn\'t exists!');
         }
 
-        $this->dir = dirname($file);
-
+        $this->dir  = dirname($file) . '/';
         $this->name = basename($file);
 
         return $this;
@@ -137,5 +136,17 @@ class File implements FileInterface
     public function getSize(): int
     {
         return filesize($this->getFile());
+    }
+
+    /**
+     * Get file content
+     * 
+     * @return string
+     * 
+     * @throws BadMethodCallException
+     */
+    public function getContent(): string
+    {
+        return file_get_contents($this->getFile());
     }
 }

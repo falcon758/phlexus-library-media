@@ -18,6 +18,8 @@ class MediaType extends Model
 
     public const TYPE_IMAGE = 1;
 
+    public const TYPE_AUDIO = 2;
+
     /**
      * @var int
      */
