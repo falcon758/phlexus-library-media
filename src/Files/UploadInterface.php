@@ -117,6 +117,22 @@ interface UploadInterface
     public function getUploadDir(): string;
 
     /**
+     * Set allowed mimetypes
+     * 
+     * @param array $mimetypes
+     * 
+     * @return UploadInterface
+     */
+    public function setAllowedMimeTypes(array $mimetypes): UploadInterface;
+
+    /**
+     * Get allowed mimetypes
+     * 
+     * @return array
+     */
+    public function getAllowedMimeTypes(): array;
+
+    /**
      * Check if can upload
      * 
      * @return bool

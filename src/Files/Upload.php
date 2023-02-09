@@ -38,6 +38,8 @@ class Upload implements UploadInterface
 
     private string $uploadName;
 
+    private array $allowedMimeTypes;
+
     /**
      * Constructor
      * 
@@ -251,9 +253,35 @@ class Upload implements UploadInterface
     }
 
     /**
+     * Set allowed mimetypes
+     * 
+     * @param array $mimetypes
+     * 
+     * @return UploadInterface
+     */
+    public function setAllowedMimeTypes(array $mimetypes): UploadInterface
+    {
+        $this->allowedMimeTypes = $mimetypes;
+
+        return $this;
+    }
+
+    /**
+     * Get allowed mimetypes
+     * 
+     * @return array
+     */
+    public function getAllowedMimeTypes(): array
+    {
+        return $this->allowedMimeTypes;
+    }
+
+    /**
      * Check if can upload
      * 
      * @return bool
+     * 
+     * @todo Check allowed mimetype
      */
     public function canUpload(): bool
     {
@@ -279,6 +307,8 @@ class Upload implements UploadInterface
     {
         if (!$this->canUpload()) {
             throw new Exception('Unable to upload file!');
+        } else if (!in_array($this->file->getType(), $this->getAllowedMimeTypes())) {
+            throw new Exception('Invalid MimeType!');
         }
 
         $uploadName = $this->getUploadName();
@@ -310,19 +340,26 @@ class Upload implements UploadInterface
      */
     private function setFileTypeID(): void
     {
-        $mimeType = $this->file->getType();
+        $mimetype = $this->file->getType();
 
-        switch ($mimeType) {
-            case 'image/png':
-            case 'image/jpg':
-            case 'image/jpeg':
-                $this->fileTypeID = MediaType::TYPE_IMAGE;
+        $mimeTypesRelation = [
+            MediaType::TYPE_IMAGE => MimeTypes::IMAGES,
+            MediaType::TYPE_AUDIO => MimeTypes::WAV,
+        ];
+
+        $fileTypeID = null;
+        
+        foreach ($mimeTypesRelation as $fileType => $mimeTypes) {
+            if (in_array($mimetype, $mimeTypes)) {
+                $fileTypeID = $fileType;
                 break;
-            case 'audio/wav':
-                $this->fileTypeID = MediaType::TYPE_AUDIO;
-                break;
-            default:
-                throw new Exception('Mime-Type not supported');
+            }
         }
+
+        if (!$fileTypeID) {
+            throw new Exception('Mime-Type not supported');
+        }
+
+        $this->fileTypeID = $fileTypeID;
     }
 }
