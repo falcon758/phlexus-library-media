@@ -23,5 +23,6 @@ class MimeTypes
 
     const WAV = [
         'audio/wav',
+        'audio/wave',
     ];
 }
