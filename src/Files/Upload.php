@@ -280,8 +280,6 @@ class Upload implements UploadInterface
      * Check if can upload
      * 
      * @return bool
-     * 
-     * @todo Check allowed mimetype
      */
     public function canUpload(): bool
     {
