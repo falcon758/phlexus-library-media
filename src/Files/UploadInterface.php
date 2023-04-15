@@ -51,6 +51,29 @@ interface UploadInterface
      * @return UploadInterface
      */
     public function setBaseDir($baseDir): UploadInterface;
+    
+    /**
+     * Get target directory
+     * 
+     * @return string
+     */
+    public function getTargetDir(): string;
+
+    /**
+     * Set target directory
+     * 
+     * @param string $targetDir
+     * 
+     * @return UploadInterface
+     */
+    public function setTargetDir(string $targetDir): UploadInterface;
+
+    /**
+     * Set target directory as system
+     * 
+     * @return UploadInterface
+     */
+    public function setTargetDirSystem(): UploadInterface;
 
     /**
      * Get formatter
@@ -115,6 +138,13 @@ interface UploadInterface
      * @return string
      */
     public function getUploadDir(): string;
+
+    /**
+     * Get relative upload directory
+     * 
+     * @return string
+     */
+    public function getRelativeUploadDir(): string;
 
     /**
      * Set allowed mimetypes

@@ -24,6 +24,8 @@ use Exception;
 
 class Upload implements UploadInterface
 {
+    private const SYSTEM_DIR = 'intrl';
+
     private File $file;
 
     private FormatterInterface $formatter;
@@ -34,7 +36,7 @@ class Upload implements UploadInterface
 
     private string $baseDir;
 
-    private string $userDir;
+    private string $targetDir;
 
     private string $uploadName;
 
@@ -47,13 +49,13 @@ class Upload implements UploadInterface
      */
     public function __construct()
     {
-        $dirTypeID     = MediaDestiny::DESTINY_USER;
-        $uploadDir     = Helpers::getUploadDir();
-        $userDirectory = Di::getDefault()->getShared('security')->getStaticUserToken();
+        $dirTypeID = MediaDestiny::DESTINY_USER;
+        $uploadDir = Helpers::getUploadDir();
+        $userDir   = Di::getDefault()->getShared('security')->getStaticUserToken();
 
         $this->setDirTypeID($dirTypeID)
              ->setBaseDir($uploadDir)
-             ->setUserDir($userDirectory)
+             ->setTargetDir($userDir)
              ->setFormatter(new UserFormatter);
     }
 
@@ -188,25 +190,37 @@ class Upload implements UploadInterface
     }
     
     /**
-     * Get user directory
+     * Get target directory
      * 
      * @return string
      */
-    public function getUserDir(): string
+    public function getTargetDir(): string
     {
-        return $this->userDir;
+        return $this->targetDir;
     }
 
     /**
-     * Set user directory
+     * Set target directory
      * 
-     * @param string $userDir
+     * @param string $targetDir
      * 
      * @return UploadInterface
      */
-    public function setUserDir(string $userDir): UploadInterface
+    public function setTargetDir(string $targetDir): UploadInterface
     {
-        $this->userDir = $userDir;
+        $this->targetDir = $targetDir;
+
+        return $this;
+    }
+
+    /**
+     * Set target directory as system
+     * 
+     * @return UploadInterface
+     */
+    public function setTargetDirSystem(): UploadInterface
+    {
+        $this->targetDir = self::SYSTEM_DIR;
 
         return $this;
     }
@@ -244,12 +258,23 @@ class Upload implements UploadInterface
      */
     public function getUploadDir(): string
     {
-        $baseDir    = $this->getBaseDir();
+        $baseDir = $this->getBaseDir();
+
+        return $baseDir . $this->getRelativeUploadDir();
+    }
+
+    /**
+     * Get relative upload directory
+     * 
+     * @return string
+     */
+    public function getRelativeUploadDir(): string
+    {
         $fileTypeID = $this->getFileTypeID();
         $dirTypeID  = $this->getDirTypeID();
-        $userDir    = $this->getUserDir();
+        $targetDir  = $this->getTargetDir();
 
-        return $baseDir . implode('/', [ $fileTypeID, $dirTypeID, $userDir]);
+        return implode('/', [ $fileTypeID, $dirTypeID, $targetDir]);
     }
 
     /**
