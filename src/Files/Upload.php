@@ -17,7 +17,7 @@ use Phlexus\Libraries\Media\Files\Formatter\FormatterInterface;
 use Phlexus\Libraries\Media\Files\Formatter\UserFormatter;
 use Phlexus\Libraries\Media\Models\MediaDestiny;
 use Phlexus\Libraries\Media\Models\MediaType;
-use Phlexus\Libraries\Helpers;
+use Phlexus\PhlexusHelpers\Files;
 use Phalcon\Http\Request\File;
 use Phalcon\Di\Di;
 use Exception;
@@ -50,7 +50,7 @@ class Upload implements UploadInterface
     public function __construct()
     {
         $dirTypeID = MediaDestiny::DESTINY_USER;
-        $uploadDir = Helpers::getUploadDir();
+        $uploadDir = Files::getUploadDir();
         $userDir   = Di::getDefault()->getShared('security')->getStaticUserToken();
 
         $this->setDirTypeID($dirTypeID)
