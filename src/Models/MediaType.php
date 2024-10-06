@@ -21,9 +21,9 @@ class MediaType extends Model
     public const TYPE_AUDIO = 2;
 
     /**
-     * @var int
+     * @var int|null
      */
-    public $id;
+    public ?int $id;
 
     /**
      * @var string
@@ -33,17 +33,17 @@ class MediaType extends Model
     /**
      * @var int|null
      */
-    public $active;
+    public ?int $active;
 
     /**
      * @var string|null
      */
-    public $createdAt;
+    public ?string $createdAt;
 
     /**
      * @var string|null
      */
-    public $modifiedAt;
+    public ?string $modifiedAt;
 
     /**
      * Initialize
